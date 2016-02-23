@@ -16,6 +16,13 @@ namespace {
 
     class CoreHttpTest extends PHPUnit_Framework_TestCase
     {
+        public function testConstruct()
+        {
+            $http = new Http();
+
+            $this->assertInstanceOf(Client::class, $http->getClient());
+        }
+
         /**
          * Get guzzle mock client.
          *
@@ -69,7 +76,7 @@ namespace {
             $http->setClient($this->getGuzzleWithResponse('{"foo:"bar"}'));
             try {
                 $http->parseJSON($http->request('http://overtrue.me', 'GET'));
-                $this->assertFail("Invalid json body check fail.");
+                $this->assertFail('Invalid json body check fail.');
             } catch (\Exception $e) {
                 $this->assertInstanceOf("\EasyWeChat\Core\Exceptions\HttpException", $e);
             }
@@ -78,7 +85,7 @@ namespace {
             $this->assertEquals(['foo' => 'bar'], $http->parseJSON($http->request('http://overtrue.me', 'GET')));
 
             $http = new Http();
-            $http->setClient($this->getGuzzleWithResponse(""));
+            $http->setClient($this->getGuzzleWithResponse(''));
             $this->assertEquals(null, $http->parseJSON($http->request('http://overtrue.me', 'GET')));
         }
 

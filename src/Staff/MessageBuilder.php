@@ -72,7 +72,7 @@ class MessageBuilder
     /**
      * Set message to send.
      *
-     * @param AbstractMessage $message
+     * @param string|AbstractMessage $message
      *
      * @return MessageBuilder
      *
@@ -82,10 +82,6 @@ class MessageBuilder
     {
         if (is_string($message)) {
             $message = new Text(['content' => $message]);
-        }
-
-        if (!$message instanceof AbstractMessage) {
-            throw new InvalidArgumentException("Message must be a instanceof 'EasyWeChat\\Message\\AbstractMessage'.");
         }
 
         $this->message = $message;
@@ -143,7 +139,6 @@ class MessageBuilder
 
             $message = array_merge([
                 'touser' => $this->to,
-                'msgtype' => $this->message->type,
                 'customservice' => ['kf_account' => $this->account],
             ], $content);
         }
